@@ -1,6 +1,20 @@
 from extraClasses import LimitedList
 
 class Board:
+    """
+    A class that stores the information and functions for the game board. 
+
+    Parameters
+    ----------
+
+    piecesPerHole: int, optional 
+        Number of starting pieces in each of the positions on the board, default 4
+
+    rowLength: int, optional 
+        Number of positions in each row, default 6
+
+    """
+
     def __init__(self, piecesPerHole=4, rowLength=6):
         self.piecesPerHole = piecesPerHole #number of starting pieces in each position on board 
         self.rowLength = rowLength #number of holes/positions per row 
