@@ -83,12 +83,12 @@ class LimitedList:
                 raise self.IndexOutOfRangeError(indices, 0, self.length - 1)
         
         elif isinstance(indices, (int, slice)): #if a slice is passed, return a list of all values within slice (inclusive first value, exclusive second)
-            if (indices.start == None or indices.start >= 0) and (indices.stop <= self.length-1): #if slice values provided are within the range of the list
+            if (indices.start == None or indices.start >= 0) and (indices.stop == None or indices.stop <= self.length-1): #if slice values provided are within the range of the list
                 return self._lst[indices] #return simply the slice of the internal list object 
             else: #if the slice bounds are out of range of the list, return out of range error 
                 if not (indices.start == None or indices.start >= 0): #if it was the starting value that caused issues
                     raise self.IndexOutOfRangeError(indices.start, 0, self.length - 1)
-                elif not (indices.stop <= self.length-1): #if the stop value is causing issues 
+                elif not (indices.stop == None or indices.stop <= self.length-1): #if the stop value is causing issues 
                     raise self.IndexOutOfRangeError(indices.stop, 0, self.length - 1)
                 else: #this shouldn't ever be called as in every case the starting or stopping variable will trigger this if/else... However, this is in place as a fallback in case unknown error occurs 
                     raise self.IndexOutOfRangeError(indices, 0, self.length - 1) 
