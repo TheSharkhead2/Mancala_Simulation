@@ -32,8 +32,15 @@ class LimitedListIterator:
 
 class LimitedList:
     """ 
-    This might already exist, however the purpose of this class is simply to be an alternative
-    storage system which allows for storing lists with a specific length. 
+    A new class object that is essentially a list, however has a limited size. This object also includes
+    additional functionality for iteration and variable assignment. 
+
+    Parameters 
+    ----------
+
+    length: int 
+        Length of list. This cannot be changed once object is initialized.
+
     """
 
     def __init__(self, length):
