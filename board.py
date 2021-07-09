@@ -23,14 +23,19 @@ class Board:
         self.player1Goal = 0 
         self.player2Goal = self.rowLength + 1 
 
+        self.numberOfPositions = self.rowLength * 2 + 2 #the total number of positions on the board is going to be the number of positions per row times 2 and then two goals 
+
+        #generate lists of all indices of positions on player 1 and player 2 sides of the board
+        self.player1Pos = [i for i in range(self.player1Goal+1, self.player2Goal)]
+        self.player2Pos = [i for i in range(self.player2Goal+1, self.numberOfPositions)]
+
         #code to generate board list 
-        numberOfPositions = self.rowLength * 2 + 2 #the total number of positions on the board is going to be the number of positions per row times 2 and then two goals 
-        self.board = LimitedList(numberOfPositions) #create list to represent the board 
+        self.board = LimitedList(self.numberOfPositions) #create list to represent the board 
         
         self.board[self.player1Goal, self.player2Goal] = 0 #set both goals to empty 
-        for index in [i for i in range(self.player1Goal+1,self.player2Goal)]: #look through all indices in board between the first and second goal, set all of them to the correct number of initial pieces
+        for index in self.player1Pos: #look through all indices in board between the first and second goal, set all of them to the correct number of initial pieces
             self.board[index] = self.piecesPerHole
-        for index in [i for i in range(self.player2Goal+1,numberOfPositions)]: #do the same, however between second goal and end of board 
+        for index in self.player2Pos: #do the same, however between second goal and end of board 
             self.board[index] = self.piecesPerHole 
     
     def __repr__(self):
@@ -63,6 +68,8 @@ class Board:
         """
 
         return(self.board[self.player2Goal:])
+
+        
 
 gameBoard = Board()
 print(gameBoard)
