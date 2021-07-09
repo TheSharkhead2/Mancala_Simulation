@@ -45,7 +45,7 @@ class LimitedList:
 
     def __init__(self, length):
         self.length = length
-        self._lst = [None] * self.length
+        self._lst = [None] * self.length #create list of None values with specified length 
 
         self._observingIndex = 0 #when looping with self.next(), this variable used to store current location in loop (special implemantation of form of iteration)
 
