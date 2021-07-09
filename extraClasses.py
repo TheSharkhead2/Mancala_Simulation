@@ -168,7 +168,7 @@ class LimitedList:
 
         return(self._lst[self._observingIndex])
 
-    def next(self, skip=1):
+    def next(self, skip=1, setValue=None):
         """
         Move internal looping iterator to next position. Will wrap list if next index is larger than max index
         in list. Will also return next value (value at next position in list). If skip value is defined, next 
@@ -179,6 +179,9 @@ class LimitedList:
         ----------
         skip: int, optional 
             How many index values will be skiped (ie, if set to 2, the observed index will jump 2 forward)
+        
+        setValue: any, optional 
+            What value you want to set the "next" value to. Useful if you want to iterate through while also setting values. 
 
         Returns 
         -------
@@ -190,6 +193,10 @@ class LimitedList:
 
         tempObservingIndex = self._observingIndex + skip #make temporary variable to find next index when adding "skip" value
         self._observingIndex = tempObservingIndex % self.length #account for looping over list by taking the temporary index mod the length of the list
+
+        #set next value if setValue specified
+        if setValue != None:
+            self._lst[self._observingIndex] = setValue
 
         return (self._lst[self._observingIndex])
 
