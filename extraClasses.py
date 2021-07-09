@@ -64,13 +64,15 @@ class LimitedList:
             If index passed into list is out of range of specified list length
 
         IndexObjectNotAcceptedError 
-            If index object passed is not int or tuple
+            If index object passed is not an int, tuple, or slice
 
         Citations 
         ---------
             Found this class method here: https://stackoverflow.com/questions/41686020/python-custom-class-indexing=
 
             Further information and inspiration from: https://riptutorial.com/python/example/1571/indexing-custom-classes----getitem------setitem---and---delitem--
+
+            Found information on slicing from: https://www.programiz.com/python-programming/methods/built-in/slice
 
         """
 
@@ -80,6 +82,17 @@ class LimitedList:
             else:
                 raise self.IndexOutOfRangeError(indices, 0, self.length - 1)
         
+        elif isinstance(indices, (int, slice)): #if a slice is passed, return a list of all values within slice (inclusive first value, exclusive second)
+            if (indices.start == None or indices.start >= 0) and (indices.stop <= self.length-1): #if slice values provided are within the range of the list
+                return self._lst[indices] #return simply the slice of the internal list object 
+            else: #if the slice bounds are out of range of the list, return out of range error 
+                if not (indices.start == None or indices.start >= 0): #if it was the starting value that caused issues
+                    raise self.IndexOutOfRangeError(indices.start, 0, self.length - 1)
+                elif not (indices.stop <= self.length-1): #if the stop value is causing issues 
+                    raise self.IndexOutOfRangeError(indices.stop, 0, self.length - 1)
+                else: #this shouldn't ever be called as in every case the starting or stopping variable will trigger this if/else... However, this is in place as a fallback in case unknown error occurs 
+                    raise self.IndexOutOfRangeError(indices, 0, self.length - 1) 
+
         elif isinstance(indices, tuple): #return all values at all indicies if multiple indicies are passed (signified by tuple being passed)
             result = [] #empty list to return 
             for index in indices:
@@ -89,7 +102,7 @@ class LimitedList:
                     raise self.IndexOutOfRangeError(index, 0, self.length - 1)
             return result  
         else:
-            raise self.IndexObjectNotAcceptedError(type(indices))
+            raise self.IndexObjectNotAcceptedError(type(indices), [int, tuple, slice])
         
     def __setitem__(self, key, value):
         """ 
@@ -138,7 +151,7 @@ class LimitedList:
                     raise self.IndexOutOfRangeError(index, 0, self.length-1)
         
         else: #if key object is niether a tuple or a integer, raise exception
-            raise self.IndexObjectNotAcceptedError(type(key))
+            raise self.IndexObjectNotAcceptedError(type(key), [int, tuple])
 
     #functions for handling custom iterator that loops over list
     def current(self):
@@ -233,12 +246,13 @@ class LimitedList:
 
     class IndexObjectNotAcceptedError(Exception):
         """ 
-        Exception raised if object other than int or tuple is passed when indexing into list
+        Exception raised if object other than the accepted object is passed into the function
 
         """
 
-        def __init__(self, objectType, message="Object type {} is not accepted when indexing. Expected: tuple or Int."):
+        def __init__(self, objectType, expectedObjectTypes, message="Object type {} is not accepted when indexing. Expected: {}"):
             self.objectType = objectType
-            self.message = message.format(self.objectType)
+            self.expectedObjectTypes = expectedObjectTypes
+            self.message = message.format(self.objectType, self.expectedObjectTypes)
             super().__init__(self.message)
 
