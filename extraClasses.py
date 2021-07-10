@@ -154,6 +154,14 @@ class LimitedList:
             raise self.IndexObjectNotAcceptedError(type(key), [int, tuple])
 
     #functions for handling custom iterator that loops over list
+    def iterationLocation(self):
+        """
+        Simply returns self._observingIndex for external use. 
+
+        """
+
+        return self._observingIndex
+
     def current(self, setValue=None):
         """ 
         Part of internal looping iterator. Will return value in list of current "position" in iterator. 
