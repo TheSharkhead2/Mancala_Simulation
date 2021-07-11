@@ -7,6 +7,7 @@ class LimitedListIterator:
 
     Citations
     ---------
+    
         Found information on this type of class and class method calling from here: https://thispointer.com/python-how-to-make-a-class-iterable-create-iterator-class-for-it/
 
     """
